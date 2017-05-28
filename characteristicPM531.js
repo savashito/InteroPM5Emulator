@@ -9,6 +9,9 @@ let time = 0;
 let distance = 0;
 let pace = 387.8277952417603;
 let spm = 22;
+// strokeData
+let strokeRecoveryTime = 0;
+let driveTime = 0;
 
 function characteristicPM5(update3x,uuid,timeOut=500){
 	let _updateValueCallback = null;
@@ -135,6 +138,8 @@ function characteristicPM5ErgCallback(data){
 
 function characteristicPM5StrokeCallback(data){
 	console.log("HelloStroke ",data);
+	strokeRecoveryTime = Number(data.strokeRecoveryTime);
+	driveTime = Number(data.driveTime);
 	// characteristicPM531.update();
 	// characteristicPM532.update();
 	characteristicPM535.update();
@@ -176,10 +181,11 @@ function update35(data){
 	const bufferErg = new ManageBufferPM5(data);
 	bufferErg.writeTime(time);
 	bufferErg.writeDistance(distance);
+ 
 	let stroke = {
 		driveLength: 1.24,
-		driveTime: 0.6,
-		strokeRecoveryTime: 1.42,
+		driveTime: driveTime,
+		strokeRecoveryTime: strokeRecoveryTime,
 		strokeRecoveryDistance: 9.86,
 		peakDriveForce: 181.70000000000002,
 		avgDriveForce: 102,
