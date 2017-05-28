@@ -181,7 +181,8 @@ function update35(data){
 	const bufferErg = new ManageBufferPM5(data);
 	bufferErg.writeTime(time);
 	bufferErg.writeDistance(distance);
- 
+ 	console.log(driveTime);
+ 	console.log(strokeRecoveryTime);
 	let stroke = {
 		driveLength: 1.24,
 		driveTime: driveTime,
