@@ -37,7 +37,7 @@ function characteristicPM5(update3x,uuid,timeOut=500){
 	characteristicPM53x.update=function(data) {
 		// update();
 		if(_updateValueCallback){
-			console.log("update "+uuid);
+			// console.log("update "+uuid);
 			update3x(_value,data);
 			_updateValueCallback(_value);
 			// setTimeout(characteristicPM53x.update, timeOut);
@@ -125,7 +125,7 @@ class ManageBufferPM5{
 	}*/
 
 function characteristicPM5ErgCallback(data){
-	console.log("HelloErg ",data);
+	// console.log("HelloErg ",data);
 	distance = Number(data.distance);
 	time = Number(data.time);
 	spm = Number(data.spm);
@@ -137,9 +137,12 @@ function characteristicPM5ErgCallback(data){
 }
 
 function characteristicPM5StrokeCallback(data){
-	console.log("HelloStroke ",data);
+	//console.log("HelloStroke ",data);
 	strokeRecoveryTime = Number(data.strokeRecoveryTime);
 	driveTime = Number(data.driveTime);
+	strokeRecoveryTime =strokeRecoveryTime?strokeRecoveryTime:0;
+	driveTime=driveTime ? driveTime:0; 
+	//console.log("HelloStroke ",strokeRecoveryTime, driveTime);
 	// characteristicPM531.update();
 	// characteristicPM532.update();
 	characteristicPM535.update();
@@ -178,6 +181,7 @@ function update32(data){
 
 // Stroke
 function update35(data){
+	console.log("update35");
 	const bufferErg = new ManageBufferPM5(data);
 	bufferErg.writeTime(time);
 	bufferErg.writeDistance(distance);

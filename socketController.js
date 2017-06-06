@@ -29,13 +29,13 @@ function init(characteristicPM5){
 		
 		socket.on('ergData', function(data){
 			// packageErgEntry(data)
-			console.log('ergData: ' , data);
+		//	console.log('ergData: ' , data);
 			characteristicPM5.characteristicPM5ErgCallback(data);
 			
 			// socketController.emit('ergData',data);
 		});
 		socket.on('strokeData', function(data){
-			console.log('strokeData: ' , data);
+		//	console.log('strokeData: ' , data);
 			characteristicPM5.characteristicPM5StrokeCallback(data);
 			// socketController.emit('strokeData',data);
 
