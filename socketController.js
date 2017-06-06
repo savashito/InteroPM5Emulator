@@ -29,8 +29,17 @@ function init(characteristicPM5){
 		
 		socket.on('ergData', function(data){
 			// packageErgEntry(data)
-			console.log('ergData: ' , data);
-			characteristicPM5.characteristicPM5ErgCallback(data);
+			console.log('ergData: ' , data,data.i);
+			switch(data.i){
+				case 0:
+				characteristicPM5.characteristicPM5ErgCallback(data);
+				break;
+				case 1:
+				characteristicPM5.characteristicPM51ErgCallback(data);
+				break;
+			}
+			
+			// characteristicPM5.characteristicPM51ErgCallback(data);
 			
 			// socketController.emit('ergData',data);
 		});

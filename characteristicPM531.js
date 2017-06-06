@@ -26,7 +26,7 @@ function characteristicPM5(update3x,uuid,timeOut=500){
 
 	util.inherits(characteristicPM53x, BlenoCharacteristic);
 	characteristicPM53x.prototype.onSubscribe = function(maxValueSize, updateValueCallback) {
-		console.log('characteristicPM53x - onSubscribe');
+		console.log('characteristicPM53x - onSubscribe '+uuid);
 		_updateValueCallback = updateValueCallback;
 	};
 
@@ -36,6 +36,7 @@ function characteristicPM5(update3x,uuid,timeOut=500){
 	};
 	characteristicPM53x.update=function(data) {
 		// update();
+		console.log("uidd ",uuid,_updateValueCallback);
 		if(_updateValueCallback){
 			console.log("update "+uuid);
 			update3x(_value,data);
@@ -123,6 +124,35 @@ class ManageBufferPM5{
 			// setTimeout(characteristicPM53x.update, timeOut);
 		}
 	}*/
+/*
+function characteristicPM5TestErgCallback(data){
+	console.log("HelloErg ",data);
+	distance += 1;//Number(data.distance);
+	time += 0.5 ;//Number(data.time);
+	spm = 22 ; //Number(data.spm);
+	pace = 123;//Number(data.pace);
+	characteristicPM531.update();//{time:data.time,distance:data.distance});
+	characteristicPM532.update();
+	// characteristicPM535.update();
+	// characteristicPM536.update();
+	setTimeout(characteristicPM5TestErgCallback, 500);
+}
+// setTimeout(characteristicPM5TestErgCallback, 500);
+
+function characteristicPM5Test1ErgCallback(data){
+	console.log("HelloErg1 ",data);
+	distance += 1;//Number(data.distance);
+	time += 0.5 ;//Number(data.time);
+	spm = 22 ; //Number(data.spm);
+	pace = 123;//Number(data.pace);
+	characteristicPM5131.update();//{time:data.time,distance:data.distance});
+	characteristicPM5132.update();
+	// characteristicPM535.update();
+	// characteristicPM536.update();
+	setTimeout(characteristicPM5Test1ErgCallback, 500);
+}
+*/
+// setTimeout(characteristicPM5Test1ErgCallback, 500);
 
 function characteristicPM5ErgCallback(data){
 	console.log("HelloErg ",data);
@@ -132,6 +162,19 @@ function characteristicPM5ErgCallback(data){
 	pace = Number(data.pace);
 	characteristicPM531.update();//{time:data.time,distance:data.distance});
 	characteristicPM532.update();
+	// characteristicPM535.update();
+	// characteristicPM536.update();
+}
+
+
+function characteristicPM51ErgCallback(data){
+	console.log("HelloErg1 ",data);
+	distance = Number(data.distance);
+	time = Number(data.time);
+	spm = Number(data.spm);
+	pace = Number(data.pace);
+	characteristicPM5131.update();//{time:data.time,distance:data.distance});
+	characteristicPM5132.update();
 	// characteristicPM535.update();
 	// characteristicPM536.update();
 }
@@ -222,7 +265,8 @@ function update36(data){
 
 
 
-
+const characteristicPM5131 = characteristicPM5(update31,'0131');
+const characteristicPM5132 = characteristicPM5(update32,'0132');
 const characteristicPM531 = characteristicPM5(update31,'0031');
 const characteristicPM535 = characteristicPM5(update35,'0035',700);
 const characteristicPM532 = characteristicPM5(update32,'0032');
@@ -231,10 +275,13 @@ const characteristicPM536 = characteristicPM5(update36,'0036');
 
 module.exports = {
 	characteristicPM531:characteristicPM531,
+	characteristicPM5131:characteristicPM5131,
+	characteristicPM5132:characteristicPM5132,
 	characteristicPM532:characteristicPM532,
 	characteristicPM535:characteristicPM535,
 	characteristicPM536:characteristicPM536,
 	characteristicPM5ErgCallback:characteristicPM5ErgCallback,
+	characteristicPM51ErgCallback:characteristicPM51ErgCallback,
 	characteristicPM5StrokeCallback:characteristicPM5StrokeCallback
 }
 
