@@ -34,6 +34,15 @@ bleno.on('advertisingStart', function(error) {
 					new characteristicsPM5.characteristicPM535(),
 					new characteristicsPM5.characteristicPM536(),
 				]
+			}),
+			new BlenoPrimaryService({
+				uuid: PM5Util.toLongUUID("0130"),
+				characteristics: [
+					new characteristicsPM5.characteristicPM5131(),
+					new characteristicsPM5.characteristicPM5132(),
+					// new characteristicsPM5.characteristicPM535(),
+					// new characteristicsPM5.characteristicPM536(),
+				]
 			})
 		]);
 	}
