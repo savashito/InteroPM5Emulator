@@ -19,18 +19,27 @@ class SocketController {
 			console.log("Socket has not been initialized")
 	}
 }
-
+let socketUnity = null;
 
 function init(characteristicPM5){
 	let socketController = new SocketController();
 	io.on('connection', function(socket){
 		console.log('a user connected');
 		socketController.setSocket(socket);
-		
+		socket.on('unityUser', function (data){
+			console.log("fd");
+			socketUnity = socket;
+		})
 		socket.on('ergData', function(data){
+			if(socketUnity){
+				socketUnity.emit('ergData',data);
+				console.log(data)
+
+			}
 			// packageErgEntry(data)
 		//	console.log('ergData: ' , data);
-			console.log('ergData: ' , data,data.i);
+			// console.log('ergData: ' , data,data.i);
+			/*
 			switch(data.i){
 				case 0:
 				characteristicPM5.characteristicPM5ErgCallback(data);
@@ -39,14 +48,19 @@ function init(characteristicPM5){
 				characteristicPM5.characteristicPM51ErgCallback(data);
 				break;
 			}
-			
+			*/
 			// characteristicPM5.characteristicPM51ErgCallback(data);
 			
 			// socketController.emit('ergData',data);
 		});
 		socket.on('strokeData', function(data){
+			if(socketUnity){
+				socketUnity.emit('strokeData',data);
+				console.log(data)
+
+			}
 		//	console.log('strokeData: ' , data);
-			characteristicPM5.characteristicPM5StrokeCallback(data);
+			// characteristicPM5.characteristicPM5StrokeCallback(data);
 			// socketController.emit('strokeData',data);
 
 		});
@@ -55,6 +69,9 @@ function init(characteristicPM5){
 	http.listen(8080, function(){
 		console.log('listening on *:8080');
 	});
+	// http.listen(8081, function(){
+	// 	console.log('listening on *:8081');
+	// });
 	return socketController;
 }
 module.exports = init;
