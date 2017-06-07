@@ -19,7 +19,8 @@ class SocketController {
 			console.log("Socket has not been initialized")
 	}
 }
-let socketUnity = null;
+let socketUnity = [];
+
 
 function init(characteristicPM5){
 	let socketController = new SocketController();
@@ -28,11 +29,15 @@ function init(characteristicPM5){
 		socketController.setSocket(socket);
 		socket.on('unityUser', function (data){
 			console.log("fd");
-			socketUnity = socket;
+			socketUnity.push(socket);
+			// socketUnity = socket;
 		})
 		socket.on('ergData', function(data){
-			if(socketUnity){
-				socketUnity.emit('ergData',data);
+			if(socketUnity.length){
+				for (var i = 0; i < socketUnity.length; i++) {
+					socketUnity[i].emit('ergData',data);
+				}
+				// socketUnity.emit('ergData',data);
 				console.log(data)
 
 			}
@@ -54,10 +59,12 @@ function init(characteristicPM5){
 			// socketController.emit('ergData',data);
 		});
 		socket.on('strokeData', function(data){
-			if(socketUnity){
-				socketUnity.emit('strokeData',data);
-				console.log(data)
-
+			if(socketUnity.length){
+				for (var i = 0; i < socketUnity.length; i++) {
+					socketUnity[i].emit('ergData',data);
+				}
+				// socketUnity.emit('ergData',data);
+				console.log(data);
 			}
 		//	console.log('strokeData: ' , data);
 			// characteristicPM5.characteristicPM5StrokeCallback(data);
