@@ -38,7 +38,7 @@ function init(characteristicPM5){
 					socketUnity[i].emit('ergData',data);
 				}
 				// socketUnity.emit('ergData',data);
-				console.log(data)
+				// console.log(data)
 
 			}
 			// packageErgEntry(data)
@@ -61,7 +61,7 @@ function init(characteristicPM5){
 		socket.on('strokeData', function(data){
 			if(socketUnity.length){
 				for (var i = 0; i < socketUnity.length; i++) {
-					socketUnity[i].emit('ergData',data);
+					socketUnity[i].emit('strokeData',data);
 				}
 				// socketUnity.emit('ergData',data);
 				console.log(data);
