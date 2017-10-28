@@ -107,9 +107,9 @@ function init(characteristicPM5){
 			// packageErgEntry(data)
 		//	console.log('ergData: ' , data);
 			// console.log('ergData: ' , data,data.i);
-			characteristicPM5.characteristicPM5ErgCallback(data);
-			console.log("Send BLE data ",data);
-			/*
+			// characteristicPM5.characteristicPM5ErgCallback(data);
+			// console.log("Send BLE data ",data);
+			
 			switch(data.i){
 				case 0:
 				characteristicPM5.characteristicPM5ErgCallback(data);
@@ -117,8 +117,8 @@ function init(characteristicPM5){
 				case 1:
 				characteristicPM5.characteristicPM51ErgCallback(data);
 				break;
-			}
-			*/
+			}// Telcel call for credit *135#
+			
 			// characteristicPM5.characteristicPM51ErgCallback(data);
 			
 			// socketController.emit('ergData',data);
