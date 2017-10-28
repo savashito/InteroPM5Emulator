@@ -1,5 +1,6 @@
 'use strict';
 
+
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
@@ -57,10 +58,18 @@ function init(characteristicPM5){
 
 		});
 		socket.on('ergData', function(data){
+			
 			if(socketUnity.length){
+
+				for (var i = 0; i < socketUnity.length; i++) {
+						console.log(data);
+						socketUnity[i].emit('ergData',data);
+					}
+				/*
 				// only emit if different
 				if(unityUserOldDistance[data.i]!=data.distance){
 					for (var i = 0; i < socketUnity.length; i++) {
+						console.log(data);
 						socketUnity[i].emit('ergData',data);
 					}
 					// socketUnity.emit('ergData',data);
@@ -73,8 +82,9 @@ function init(characteristicPM5){
 						unityUserLogFiles[data.i].write("\n");
 					}
 					
-				}
+				}*/
 				unityUserOldDistance[data.i]=data.distance;
+				
 				/*
 
 
@@ -97,6 +107,8 @@ function init(characteristicPM5){
 			// packageErgEntry(data)
 		//	console.log('ergData: ' , data);
 			// console.log('ergData: ' , data,data.i);
+			characteristicPM5.characteristicPM5ErgCallback(data);
+			console.log("Send BLE data ",data);
 			/*
 			switch(data.i){
 				case 0:
@@ -120,7 +132,7 @@ function init(characteristicPM5){
 				// console.log(data);
 			}
 		//	console.log('strokeData: ' , data);
-			// characteristicPM5.characteristicPM5StrokeCallback(data);
+			characteristicPM5.characteristicPM5StrokeCallback(data);
 			// socketController.emit('strokeData',data);
 
 		});
