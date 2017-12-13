@@ -23,26 +23,24 @@ bleno.on('stateChange', function(state) {
 
 bleno.on('advertisingStart', function(error) {
 	console.log('on -> advertisingStart: ' + (error ? 'error ' + error : 'success'));
-
+	// console.log(characteristicsPM5.characteristics);
 	if (!error) {
 		bleno.setServices([
 			new BlenoPrimaryService({
 				uuid: PM5Util.toLongUUID("0030"),
-				characteristics: [
-					new characteristicsPM5.characteristicPM531(),
-					new characteristicsPM5.characteristicPM532(),
-					new characteristicsPM5.characteristicPM535(),
-					new characteristicsPM5.characteristicPM536(),
-				]
+				characteristics: characteristicsPM5.characteristics[0]
 			}),
 			new BlenoPrimaryService({
 				uuid: PM5Util.toLongUUID("0130"),
-				characteristics: [
-					new characteristicsPM5.characteristicPM5131(),
-					new characteristicsPM5.characteristicPM5132(),
-					// new characteristicsPM5.characteristicPM535(),
-					// new characteristicsPM5.characteristicPM536(),
-				]
+				characteristics: characteristicsPM5.characteristics[1]
+			}),
+			new BlenoPrimaryService({
+				uuid: PM5Util.toLongUUID("0230"),
+				characteristics: characteristicsPM5.characteristics[2]
+			}),
+			new BlenoPrimaryService({
+				uuid: PM5Util.toLongUUID("0330"),
+				characteristics: characteristicsPM5.characteristics[3]
 			})
 		]);
 	}

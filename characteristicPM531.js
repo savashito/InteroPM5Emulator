@@ -154,30 +154,75 @@ function characteristicPM5Test1ErgCallback(data){
 */
 // setTimeout(characteristicPM5Test1ErgCallback, 500);
 
-function characteristicPM5ErgCallback(data){
+const characteristicPM5_31 = [
+	characteristicPM5(update31,'0031'),
+	characteristicPM5(update31,'0131'),
+	characteristicPM5(update31,'0231'),
+	characteristicPM5(update31,'0331')];
+
+const characteristicPM5_32 = [
+	characteristicPM5(update32,'0032'),
+	characteristicPM5(update32,'0132'),
+	characteristicPM5(update32,'0232'),
+	characteristicPM5(update32,'0332')];
+
+const characteristicPM5_35 = [
+	characteristicPM5(update35,'0035'),
+	characteristicPM5(update35,'0135'),
+	characteristicPM5(update35,'0235'),
+	characteristicPM5(update35,'0335')];
+
+const characteristicPM5_36 = [
+	characteristicPM5(update36,'0036'),
+	characteristicPM5(update36,'0136'),
+	characteristicPM5(update36,'0236'),
+	characteristicPM5(update36,'0336')];
+
+const characteristics = [];
+for (let i = 0; i < 4; ++i) {
+	characteristics.push(
+		[new characteristicPM5_31[i](),
+		new characteristicPM5_32[i](),
+		new characteristicPM5_35[i](),
+		new characteristicPM5_36[i]()
+		]);
+}
+				
+				// [
+				// 	new characteristicsPM5.characteristicPM531(),
+				// 	new characteristicsPM5.characteristicPM532(),
+				// 	new characteristicsPM5.characteristicPM535(),
+				// 	new characteristicsPM5.characteristicPM536(),
+				// ]
+function characteristicPM5ErgCallback(offset,data){
 	// console.log("HelloErg ",data);
 	distance = Number(data.distance);
 	time = Number(data.time);
 	spm = Number(data.spm);
 	pace = Number(data.pace);
-	characteristicPM531.update();//{time:data.time,distance:data.distance});
-	characteristicPM532.update();
+	power = Number(data.power);
+	characteristicPM5_31[offset].update(); 
+	characteristicPM5_32[offset].update();
+	// TODO wrong
+	characteristicPM5_35[offset].update(); 
+	characteristicPM5_36[offset].update();
+	//{time:data.time,distance:data.distance});
 	// characteristicPM535.update();
 	// characteristicPM536.update();
 }
 
 
-function characteristicPM51ErgCallback(data){
-	console.log("HelloErg1 ",data);
-	distance = Number(data.distance);
-	time = Number(data.time);
-	spm = Number(data.spm);
-	pace = Number(data.pace);
-	characteristicPM5131.update();//{time:data.time,distance:data.distance});
-	characteristicPM5132.update();
-	// characteristicPM535.update();
-	// characteristicPM536.update();
-}
+// function characteristicPM51ErgCallback(data){
+// 	console.log("HelloErg1 ",data);
+// 	distance = Number(data.distance);
+// 	time = Number(data.time);
+// 	spm = Number(data.spm);
+// 	pace = Number(data.pace);
+// 	characteristicPM5131.update();//{time:data.time,distance:data.distance});
+// 	characteristicPM5132.update();
+// 	// characteristicPM535.update();
+// 	// characteristicPM536.update();
+// }
 
 function characteristicPM5StrokeCallback(data){
 	//console.log("HelloStroke ",data);
@@ -188,8 +233,8 @@ function characteristicPM5StrokeCallback(data){
 	//console.log("HelloStroke ",strokeRecoveryTime, driveTime);
 	// characteristicPM531.update();
 	// characteristicPM532.update();
-	characteristicPM535.update();
-	characteristicPM536.update();
+	characteristicPM5_35[offset].update(); 
+	characteristicPM5_36[offset].update();
 }
 function update31(bufferData){
 	const mBuffer = new ManageBufferPM5(bufferData);
@@ -254,7 +299,7 @@ function update36(data){
 	bufferErg = new ManageBufferPM5(data);
 	stroke = {
 		time:9.29,
-		strokePower:260,
+		strokePower:power,
 		strokeCalories:69,
 		strokeCount:70};
 
@@ -269,23 +314,24 @@ function update36(data){
 
 
 
-const characteristicPM5131 = characteristicPM5(update31,'0131');
-const characteristicPM5132 = characteristicPM5(update32,'0132');
-const characteristicPM531 = characteristicPM5(update31,'0031');
-const characteristicPM535 = characteristicPM5(update35,'0035',700);
-const characteristicPM532 = characteristicPM5(update32,'0032');
-const characteristicPM536 = characteristicPM5(update36,'0036');
+// const characteristicPM5131 = characteristicPM5(update31,'0131');
+// const characteristicPM5132 = characteristicPM5(update32,'0132');
+// const characteristicPM531 = characteristicPM5(update31,'0031');
+// const characteristicPM535 = characteristicPM5(update35,'0035',700);
+// const characteristicPM532 = characteristicPM5(update32,'0032');
+// const characteristicPM536 = characteristicPM5(update36,'0036');
 
 
 module.exports = {
-	characteristicPM531:characteristicPM531,
-	characteristicPM5131:characteristicPM5131,
-	characteristicPM5132:characteristicPM5132,
-	characteristicPM532:characteristicPM532,
-	characteristicPM535:characteristicPM535,
-	characteristicPM536:characteristicPM536,
+	// characteristicPM531:characteristicPM531,
+	// characteristicPM5131:characteristicPM5131,
+	// characteristicPM5132:characteristicPM5132,
+	// characteristicPM532:characteristicPM532,
+	// characteristicPM535:characteristicPM535,
+	// characteristicPM536:characteristicPM536,
+	characteristics:characteristics,
 	characteristicPM5ErgCallback:characteristicPM5ErgCallback,
-	characteristicPM51ErgCallback:characteristicPM51ErgCallback,
+	// characteristicPM51ErgCallback:characteristicPM51ErgCallback,
 	characteristicPM5StrokeCallback:characteristicPM5StrokeCallback
 }
 
