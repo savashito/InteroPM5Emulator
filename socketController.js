@@ -32,7 +32,7 @@ function init(characteristicPM5){
 	let socketController = new SocketController();
 	let string
 	io.on('connection', function(socket){
-		console.log('a user connected');
+		console.log('a Mackiz connected');
 		socketController.setSocket(socket);
 		socket.on('unityUser', function (data){
 			console.log("fd");
@@ -55,16 +55,16 @@ function init(characteristicPM5){
 			console.log("Got name ",name);
 			unityUserNames[data.id] = data.name;
 			unityUserLogFiles[data.id] = fs.createWriteStream(name);
-
 		});
 		socket.on('ergData', function(data){
-			
+			// console.log("ergData," ,data);
+			// characteristicPM5.characteristicPM5ErgCallback(0,data);
 			if(socketUnity.length){
 
-				for (var i = 0; i < socketUnity.length; i++) {
-						console.log(data);
-						socketUnity[i].emit('ergData',data);
-					}
+				// for (var i = 0; i < socketUnity.length; i++) {
+				// 		console.log(data);
+				// 		socketUnity[i].emit('ergData',data);
+				// 	}
 				/*
 				// only emit if different
 				if(unityUserOldDistance[data.i]!=data.distance){
@@ -83,7 +83,7 @@ function init(characteristicPM5){
 					}
 					
 				}*/
-				unityUserOldDistance[data.i]=data.distance;
+				// unityUserOldDistance[data.i]=data.distance;
 				
 				/*
 
@@ -109,8 +109,11 @@ function init(characteristicPM5){
 			// console.log('ergData: ' , data,data.i);
 			// characteristicPM5.characteristicPM5ErgCallback(data);
 			// console.log("Send BLE data ",data);
-			if(data.i==0)
-				characteristicPM5.characteristicPM5ErgCallback(data.i,data);
+			// console.log("ErgData",data);
+			// if(data.i==0){
+			// 	characteristicPM5.characteristicPM5ErgCallback(data.i,data);
+			// }
+			
 			/*
 			switch(data.i){
 				case 0:
@@ -127,14 +130,14 @@ function init(characteristicPM5){
 			// socketController.emit('ergData',data);
 		});
 		socket.on('strokeData', function(data){
-			if(socketUnity.length){
-				for (var i = 0; i < socketUnity.length; i++) {
-					socketUnity[i].emit('strokeData',data);
-				}
-				// socketUnity.emit('ergData',data);
-				// console.log(data);
-			}
-		//	console.log('strokeData: ' , data);
+			// if(socketUnity.length){
+			// 	for (var i = 0; i < socketUnity.length; i++) {
+			// 		socketUnity[i].emit('strokeData',data);
+			// 	}
+			// 	// socketUnity.emit('ergData',data);
+			// 	// console.log(data);
+			// }
+			console.log('strokeData:', data);
 			characteristicPM5.characteristicPM5StrokeCallback(data);
 			// socketController.emit('strokeData',data);
 

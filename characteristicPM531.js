@@ -4,14 +4,59 @@ let PM5Util = require('./PM5Util');
 var bleno = require('bleno');
 
 var BlenoCharacteristic = bleno.Characteristic;
+// ***** ergData ********** //
+// let time = 0;
+// let pace = 387.8277952417603;
+// let spm = 22;
+// commong
+let time;
+// 31
+let distance		=	0;
+let flags;
+let totalWOGDistance;
+let totalWOGTime;
+let WOGTimeType;
+let drag;
+// 32
+let speed;               // Speed
+let SPM;                 // Stroke rate
+let heartrate;           // Heartrate ToDo in emulator and BLE
+let pace;                // Current Pace 
+let avgPace;             // Average Pace ToDo in emulator and BLE
+let restDistance;        // Rest Distance ToDo in emulator and BLE
+let restTime;            // Rest Time ToDo in emulator and BLE
+    // 33
+let intervalCount;         // Interval Count ToDo in emulator and BLE
+let avgPower;            // Average Power ToDo in emulator and BLE
+let calories;            // Total calories
+let splitAvgPace;       // Split Average Place ToDo in emulator and BLE
+let splitAvgPower;       // split Average Power ToDo in emulator and BLE
+let splitAvgCalories;    // Split Average Calories ToDo in emulator and BLE
+let splitTime;           // Split Time ToDo in emulator and BLE
+let splitDistance;       // Split Distance ToDo in emulator and BLE
+////////**** StrokeData ******////
+// let distance = 0;
+// let strokeRecoveryTime = 0;
+// let driveTime = 0;
 
-let time = 0;
-let distance = 0;
-let pace = 387.8277952417603;
-let spm = 22;
-// strokeData
-let strokeRecoveryTime = 0;
-let driveTime = 0;
+    // Stroke Data
+let driveLength		=	0;                 // Drive Lentgth
+let driveTime		=	0;                   // Drive Time
+    // Recovery
+let strokeRecoveryTime		=	0;          // Stroke Recovery Time
+let strokeRecoveryDistance	=	0;              // Stroke Distance ToDo in emulator and BLE
+    //
+let peakDriveForce		=	0;              // Peak Drive Force
+let avgDriveForce		=	0;               // Average Drive Force
+let workPerStroke		=	0;               // Work per stroke ToDo in emulator and BLE
+let strokeCount			=	0;                 // Stroke Count
+    // 36
+let strokePower			=	0;                 // Stroke Power
+let strokeCalories		=	0;              // Stroke Calories ToDo in emulator and BLE
+let projectedWorkTime	=	0;           // Projected Work Time ToDo in emulator and BLE
+let projectedWorkDistance	=	0;       // Projected Work Distance ToDo in emulator and BLE
+// Erg index
+let i = 0;
 
 function characteristicPM5(update3x,uuid,timeOut=500){
 	let _updateValueCallback = null;
@@ -166,6 +211,12 @@ const characteristicPM5_32 = [
 	characteristicPM5(update32,'0232'),
 	characteristicPM5(update32,'0332')];
 
+const characteristicPM5_33 = [
+	characteristicPM5(update33,'0033'),
+	characteristicPM5(update33,'0133'),
+	characteristicPM5(update33,'0233'),
+	characteristicPM5(update33,'0333')];
+
 const characteristicPM5_35 = [
 	characteristicPM5(update35,'0035'),
 	characteristicPM5(update35,'0135'),
@@ -196,16 +247,40 @@ for (let i = 0; i < 4; ++i) {
 				// ]
 function characteristicPM5ErgCallback(offset,data){
 	// console.log("HelloErg ",data);
-	distance = Number(data.distance);
-	time = Number(data.time);
-	spm = Number(data.spm);
-	pace = Number(data.pace);
-	power = Number(data.power);
-	characteristicPM5_31[offset].update(); 
-	characteristicPM5_32[offset].update();
+	time	= Number(data.time);
+	// 31
+	distance	= Number(data.distance);
+	flags	= Number(data.flags);
+	totalWOGDistance	= Number(data.totalWOGDistance);
+	totalWOGTime	= Number(data.totalWOGTime);
+	WOGTimeType	= Number(data.WOGTimeType);
+	drag	= Number(data.drag);
+	// 32
+	// Ergadata
+	speed	= Number(data.speed);               // Speed
+	SPM	= Number(data.SPM);                 // Stroke rate
+	heartrate	= Number(data.heartrate);           // Heartrate ToDo in emulator and BLE
+	pace	= Number(data.pace);                // Current Pace 
+	avgPace	= Number(data.avgPace);             // Average Pace ToDo in emulator and BLE
+	restDistance	= Number(data.restDistance);        // Rest Distance ToDo in emulator and BLE
+	restTime	= Number(data.restTime);            // Rest Time ToDo in emulator and BLE
+	// 33
+	intervalCount = Number(data.intervalCount);         // Interval Count ToDo in emulator and BLE
+	avgPower	= Number(data.avgPower);            // Average Power ToDo in emulator and BLE
+	calories	= Number(data.calories);            // Total calories
+	splitAvgPace	= Number(data.splitAvgPace);       // Split Average Place ToDo in emulator and BLE
+	splitAvgPower	= Number(data.splitAvgPower);       // split Average Power ToDo in emulator and BLE
+	splitAvgCalories	= Number(data.splitAvgCalories);    // Split Average Calories ToDo in emulator and BLE
+	splitTime	= Number(data.splitTime);           // Split Time ToDo in emulator and BLE
+	splitDistance	= Number(data.splitDistance);       // Split Distance ToDo in emulator and BLE
+	i = Number(data.i)
+	// 
+	characteristicPM5_31[i].update(); 
+	characteristicPM5_32[i].update();
+	characteristicPM5_33[i].update();
 	// TODO wrong
-	characteristicPM5_35[offset].update(); 
-	characteristicPM5_36[offset].update();
+	// characteristicPM5_35[offset].update(); 
+	// characteristicPM5_36[offset].update();
 	//{time:data.time,distance:data.distance});
 	// characteristicPM535.update();
 	// characteristicPM536.update();
@@ -226,44 +301,76 @@ function characteristicPM5ErgCallback(offset,data){
 
 function characteristicPM5StrokeCallback(data){
 	//console.log("HelloStroke ",data);
-	strokeRecoveryTime = Number(data.strokeRecoveryTime);
-	driveTime = Number(data.driveTime);
-	strokeRecoveryTime =strokeRecoveryTime?strokeRecoveryTime:0;
-	driveTime=driveTime ? driveTime:0; 
+	time 		=	 Number(data.time);
+	distance 	=	 Number(data.distance);
+	driveLength =	 Number(data.driveLength);
+	driveTime 	=	 Number(data.driveTime);
+	// Stroke recovery
+	strokeRecoveryTime 	= Number(data.strokeRecoveryTime);
+	strokeRecoveryDistance 	= Number(data.strokeRecoveryDistance);
+	// Stroke info
+	peakDriveForce 		=	 Number(data.peakDriveForce);
+	avgDriveForce 		=	 Number(data.avgDriveForce);
+    workPerStroke 		=	 Number(data.workPerStroke);               // Work per stroke ToDo in emulator and BLE
+	strokeCount 		=	 Number(data.strokeCount);
+	// 36
+	strokePower 		=	 Number(data.strokePower);
+	strokeCalories 		=	 Number(data.strokeCalories);
+    projectedWorkTime 	=	 Number(data.projectedWorkTime);           // Projected Work Time ToDo in emulator and BLE
+    projectedWorkDistance = Number(data.projectedWorkDistance);       // Projected Work Distance ToDo in emulator and BLE
+	i 					=	 Number(data.i);
+
+	// strokeRecoveryTime = Number(data.strokeRecoveryTime);
+	// driveTime = Number(data.driveTime);
+	// strokeRecoveryTime =strokeRecoveryTime?strokeRecoveryTime:0;
+	// driveTime=driveTime ? driveTime:0;
+
 	//console.log("HelloStroke ",strokeRecoveryTime, driveTime);
 	// characteristicPM531.update();
 	// characteristicPM532.update();
-	characteristicPM5_35[offset].update(); 
-	characteristicPM5_36[offset].update();
+	characteristicPM5_35[i].update(); 
+	characteristicPM5_36[i].update();
 }
 function update31(bufferData){
 	const mBuffer = new ManageBufferPM5(bufferData);
-	// console.log("update31 ",data.time,data.distance)
-	// mBuffer.writeTime(Number(data.time));
-	// mBuffer.writeDistance(Number(data.distance));
-
-
 	mBuffer.writeTime(time);  // 
 	mBuffer.writeDistance(distance);
-	mBuffer.writeUnimportantFlags(5);
-	mBuffer.writeDistance(11.2); // total work disntace
-	mBuffer.writeTime(9.29); // workout duration
-	mBuffer.writeByte(0);    // workut 
-	mBuffer.writeByte(12);  // drag factor
+	mBuffer.writeUnimportantFlags(flags);
+	mBuffer.writeDistance(totalWOGDistance); // total work disntace
+	mBuffer.writeTime(totalWOGTime); // workout duration
+	mBuffer.writeByte(WOGTimeType);    // workut 
+	mBuffer.writeByte(drag);  // drag factor
 	return mBuffer.getBuffer();
 }
 
 function update32(data){
 	bufferErg = new ManageBufferPM5(data) ;
 		bufferErg.writeTime(time);  // elapsed time 
-		bufferErg.write2Bytes(40/0.001); // speed
-		bufferErg.writeByte(spm); // SPM
-		bufferErg.writeByte(110); // HRM
+		bufferErg.write2Bytes(speed); // speed 40/0.001
+		bufferErg.writeByte(SPM); // SPM
+		bufferErg.writeByte(heartrate); // HRM
 		bufferErg.writePace(pace); // Current Pace
-		bufferErg.writePace(120); // Average pace
-		bufferErg.write2Bytes(1); // rest distance
-		bufferErg.writeTime(20);  // rest time
+		bufferErg.writePace(avgPace); // Average pace
+		bufferErg.write2Bytes(restDistance); // rest distance
+		bufferErg.writeTime(restTime);  // rest time
+	return bufferErg.getBuffer();
+}
+
+function update33(data){
 	
+	bufferErg = new ManageBufferPM5(data) ;
+	 	bufferErg.writeTime(time);
+	 	bufferErg.writeByte(intervalCount);
+	 	bufferErg.write2Bytes(avgPower);
+	 	bufferErg.write2Bytes(calories);
+		// Averages
+	 	bufferErg.writePace(splitAvgPace);
+	 	bufferErg.write2Bytes(splitAvgPower);
+	 	bufferErg.write2Bytes(splitAvgCalories);
+		// LastTimePlit
+	 	bufferErg.writeTime(splitTime);
+	 	bufferErg.writeDistance(splitDistance);
+
 	return bufferErg.getBuffer();
 }
 
