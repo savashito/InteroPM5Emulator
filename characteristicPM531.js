@@ -394,7 +394,8 @@ function update35(data){
 		strokeCalories: 1129,
 		strokeCount: 39}
 	bufferErg.writeByte(stroke.driveLength/0.01);
-	bufferErg.writeByte(stroke.driveTime/0.01);
+	console.log("drivetime: ",stroke.driveTime/0.01);
+	bufferErg.writeByte(2); // outof bounds
 	bufferErg.write2Bytes(stroke.strokeRecoveryTime/0.01);
 	bufferErg.write2Bytes(stroke.strokeRecoveryDistance/0.01);
 	bufferErg.write2Bytes(stroke.peakDriveForce/0.1);
