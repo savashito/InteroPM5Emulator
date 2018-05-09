@@ -58,7 +58,7 @@ function init(characteristicPM5){
 		});
 		socket.on('ergData', function(data){
 			// console.log("ergData," ,data);
-			// characteristicPM5.characteristicPM5ErgCallback(0,data);
+			characteristicPM5.characteristicPM5ErgCallback(0,data);
 			if(socketUnity.length){
 
 				// for (var i = 0; i < socketUnity.length; i++) {
@@ -137,7 +137,7 @@ function init(characteristicPM5){
 			// 	// socketUnity.emit('ergData',data);
 			// 	// console.log(data);
 			// }
-			console.log('strokeData:', data);
+			// console.log('strokeData:', data);
 			characteristicPM5.characteristicPM5StrokeCallback(data);
 			// socketController.emit('strokeData',data);
 
