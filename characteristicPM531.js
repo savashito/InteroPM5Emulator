@@ -404,8 +404,9 @@ function update35(data){
 	bufferErg.write2Bytes(stroke.avgDriveForce/0.1);
 	bufferErg.write2Bytes(69)
 	*/
-	bufferErg.writeByte(driveLength/0.01);
-	console.log("drivetime: ",driveTime/0.01);
+	bufferErg.writeByte(1);
+	// bufferErg.writeByte(driveLength/0.01);
+	console.log("drivetime: ",driveTime/0.01,driveLength/0.01);
 	bufferErg.writeByte(2); // outof bounds
 	bufferErg.write2Bytes(strokeRecoveryTime/0.01);
 	bufferErg.write2Bytes(strokeRecoveryDistance/0.01);
