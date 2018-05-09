@@ -383,6 +383,7 @@ function update35(data){
 	bufferErg.writeDistance(distance);
  	console.log(driveTime);
  	console.log(strokeRecoveryTime);
+	/*
 	let stroke = {
 		driveLength: 1.24,
 		driveTime: driveTime,
@@ -393,6 +394,7 @@ function update35(data){
 		strokePower: 241,
 		strokeCalories: 1129,
 		strokeCount: 39}
+	*//*
 	bufferErg.writeByte(stroke.driveLength/0.01);
 	console.log("drivetime: ",stroke.driveTime/0.01);
 	bufferErg.writeByte(2); // outof bounds
@@ -401,21 +403,30 @@ function update35(data){
 	bufferErg.write2Bytes(stroke.peakDriveForce/0.1);
 	bufferErg.write2Bytes(stroke.avgDriveForce/0.1);
 	bufferErg.write2Bytes(69)
+	*/
+	bufferErg.writeByte(driveLength/0.01);
+	console.log("drivetime: ",driveTime/0.01);
+	bufferErg.writeByte(2); // outof bounds
+	bufferErg.write2Bytes(strokeRecoveryTime/0.01);
+	bufferErg.write2Bytes(strokeRecoveryDistance/0.01);
+	bufferErg.write2Bytes(peakDriveForce/0.1);
+	bufferErg.write2Bytes(avgDriveForce/0.1);
+	bufferErg.write2Bytes(69)
 	return bufferErg.getBuffer();
 }
 //Stroke
 function update36(data){
 	bufferErg = new ManageBufferPM5(data);
-	stroke = {
+	/*stroke = {
 		time:9.29,
-		strokePower:power,
+		// strokePower:power,
 		strokeCalories:69,
 		strokeCount:70};
-
-	bufferErg.writeTime(stroke.time);
-	bufferErg.write2Bytes(stroke.strokePower);
-	bufferErg.write2Bytes(stroke.strokeCalories);
-	bufferErg.write2Bytes(stroke.strokeCount);
+*/	
+	bufferErg.writeTime(time);
+	bufferErg.write2Bytes(strokePower);
+	bufferErg.write2Bytes(strokeCalories);
+	bufferErg.write2Bytes(strokeCount);
 	
 	return bufferErg.getBuffer();
 }
