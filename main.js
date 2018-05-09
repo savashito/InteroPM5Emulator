@@ -26,7 +26,7 @@ bleno.on('stateChange', function(state) {
 bleno.on('advertisingStart', function(error) {
 	console.log('on -> advertisingStart: ' + (error ? 'error ' + error : 'success'));
 	// console.log(characteristicsPM5.characteristics);
-	/*
+	
 	if (!error) {
 		bleno.setServices([
 			new BlenoPrimaryService({
@@ -46,6 +46,6 @@ bleno.on('advertisingStart', function(error) {
 				characteristics: characteristicsPM5.characteristics[3]
 			})
 		]);
-	}*/
+	}
 });
       
