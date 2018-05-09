@@ -328,6 +328,7 @@ function characteristicPM5StrokeCallback(data){
 	//console.log("HelloStroke ",strokeRecoveryTime, driveTime);
 	// characteristicPM531.update();
 	// characteristicPM532.update();
+	console.log("i : ",i);
 	characteristicPM5_35[i].update(); 
 	characteristicPM5_36[i].update();
 }
