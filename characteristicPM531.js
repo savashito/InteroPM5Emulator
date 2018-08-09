@@ -81,7 +81,7 @@ function characteristicPM5(update3x,uuid,timeOut=500){
 	};
 	characteristicPM53x.update=function(data) {
 		// update();
-		console.log("uidd ",uuid,_updateValueCallback);
+		// console.log("uidd ",uuid,_updateValueCallback);
 		if(_updateValueCallback){
 			// console.log("update "+uuid);
 			update3x(_value,data);
@@ -320,7 +320,7 @@ function characteristicPM5StrokeCallback(data){
     projectedWorkDistance = Number(data.projectedWorkDistance);       // Projected Work Distance ToDo in emulator and BLE
 	i 					=	 Number(data.i);
 
-	// strokeRecoveryTime = Number(data.strokeRecoveryTime);
+	// strokeRecoveryTim e = Number(data.strokeRecoveryTime);
 	// driveTime = Number(data.driveTime);
 	// strokeRecoveryTime =strokeRecoveryTime?strokeRecoveryTime:0;
 	// driveTime=driveTime ? driveTime:0;
@@ -328,7 +328,7 @@ function characteristicPM5StrokeCallback(data){
 	//console.log("HelloStroke ",strokeRecoveryTime, driveTime);
 	// characteristicPM531.update();
 	// characteristicPM532.update();
-	console.log("i : ",i);
+	// console.log("i : ",i);
 	characteristicPM5_35[i].update(); 
 	characteristicPM5_36[i].update();
 }

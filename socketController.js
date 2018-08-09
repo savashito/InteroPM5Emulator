@@ -30,15 +30,24 @@ const date = new Date();
 
 function init(characteristicPM5){
 	let socketController = new SocketController();
-	let string
+	// let string
 	io.on('connection', function(socket){
 		console.log('a Mackiz connected');
 		socketController.setSocket(socket);
+
 		socket.on('unityUser', function (data){
-			console.log("fd");
+			console.log("emitted unityUserConnected");
 			socketUnity.push(socket);
+			socket.emit('unityUserConnected',{status:'OK'});
 			// socketUnity = socket;
 		})
+
+		socket.on('disconnect', function() {
+      		console.log('Got disconnect! ',socketUnity);
+      		var i = socketUnity.indexOf(socket);
+      		socketUnity.splice(i, 1);
+      		console.log("afeter",socketUnity);
+   		});
 		socket.on('name', function(data){
 			// who is the erg from?
 			let dir = "./data/"+data.name+"/";
@@ -56,11 +65,15 @@ function init(characteristicPM5){
 			unityUserNames[data.id] = data.name;
 			unityUserLogFiles[data.id] = fs.createWriteStream(name);
 		});
+
 		socket.on('ergData', function(data){
-			// console.log("ergData," ,data);
+			console.log("ergData," ,data);
 			characteristicPM5.characteristicPM5ErgCallback(0,data);
 			if(socketUnity.length){
-
+				for (var i = 0; i < socketUnity.length; i++) {
+						// console.log(data);
+						socketUnity[i].emit('ergData',data);
+					}
 				// for (var i = 0; i < socketUnity.length; i++) {
 				// 		console.log(data);
 				// 		socketUnity[i].emit('ergData',data);
@@ -130,6 +143,13 @@ function init(characteristicPM5){
 			// socketController.emit('ergData',data);
 		});
 		socket.on('strokeData', function(data){
+
+			if(socketUnity.length){
+			for (var i = 0; i < socketUnity.length; i++) {
+					// console.log(data);
+					socketUnity[i].emit('strokeData',data);
+				}
+			}
 			// if(socketUnity.length){
 			// 	for (var i = 0; i < socketUnity.length; i++) {
 			// 		socketUnity[i].emit('strokeData',data);
