@@ -136,7 +136,7 @@ function init(characteristicPM5){
 			
 			// characteristicPM5.characteristicPM51ErgCallback(data);
 			
-			socketController.emit('ergData',data);
+			if(socketController)socketController.emit('ergData',data);
 		});
 		socket.on('strokeData', function(data){
 			if(socketUnity.length){
@@ -154,7 +154,7 @@ function init(characteristicPM5){
 			// }
 			// console.log('strokeData:', data);
 			// characteristicPM5.characteristicPM5StrokeCallback(i,data);
-			socketController.emit('strokeData',data);
+			if(socketController)socketController.emit('strokeData',data);
 
 		});
 	});
