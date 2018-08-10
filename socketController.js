@@ -36,10 +36,10 @@ function init(characteristicPM5){
 		socketController.setSocket(socket);
 
 		socket.on('unityUser', function (data){
-			console.log("emitted unityUserConnected");
+			console.log("unity User Socket connected!");
 			socketUnity.push(socket);
 			socket.emit('unityUserConnected',{status:'OK'});
-			// socketUnity = socket;
+			console.log("emitted unityUserConnected");
 		})
 
 		socket.on('disconnect', function() {
@@ -50,6 +50,7 @@ function init(characteristicPM5){
    		});
 		socket.on('name', function(data){
 			// who is the erg from?
+			/*
 			let dir = "./data/"+data.name+"/";
 			console.log(date.getMinutes())
 			let name = dir+data.name+"_"+date.getHours() +":"+date.getMinutes()+"_"+date.getDate()+"_"+date.getMonth()+"_"+date.getFullYear()+".txt";
@@ -61,17 +62,24 @@ function init(characteristicPM5){
 				
 				fs.mkdirSync(dir);
 			}
+			
 			console.log("Got name ",name);
 			unityUserNames[data.id] = data.name;
 			unityUserLogFiles[data.id] = fs.createWriteStream(name);
+			*/
 		});
 
 		socket.on('ergData', function(data){
-			console.log("ergData," ,data);
-			characteristicPM5.characteristicPM5ErgCallback(0,data);
+
+			// console.log("ergData," ,data);
+			/*
+			let i = Number(data.i);
+			if (i == NaN)i=0;
+			i=0;
+			characteristicPM5.characteristicPM5ErgCallback(i,data);*/
 			if(socketUnity.length){
 				for (var i = 0; i < socketUnity.length; i++) {
-						// console.log(data);
+						console.log(data);
 						socketUnity[i].emit('ergData',data);
 					}
 				// for (var i = 0; i < socketUnity.length; i++) {
@@ -98,19 +106,7 @@ function init(characteristicPM5){
 				}*/
 				// unityUserOldDistance[data.i]=data.distance;
 				
-				/*
-
-
-  power: 6,
-  spm: 22,
-  distance: 7150.499999999058,
-  calhr: 320.6496,
-  calories: 0,
-  pace: 87.8277952417603,
-  time: 3972.5 
-
-
-				*/
+	
 
 			}else{
 				// console.log("No user");
@@ -140,12 +136,11 @@ function init(characteristicPM5){
 			
 			// characteristicPM5.characteristicPM51ErgCallback(data);
 			
-			// socketController.emit('ergData',data);
+			socketController.emit('ergData',data);
 		});
 		socket.on('strokeData', function(data){
-
 			if(socketUnity.length){
-			for (var i = 0; i < socketUnity.length; i++) {
+				for (var i = 0; i < socketUnity.length; i++) {
 					// console.log(data);
 					socketUnity[i].emit('strokeData',data);
 				}
@@ -158,8 +153,8 @@ function init(characteristicPM5){
 			// 	// console.log(data);
 			// }
 			// console.log('strokeData:', data);
-			characteristicPM5.characteristicPM5StrokeCallback(data);
-			// socketController.emit('strokeData',data);
+			// characteristicPM5.characteristicPM5StrokeCallback(i,data);
+			socketController.emit('strokeData',data);
 
 		});
 	});

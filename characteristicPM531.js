@@ -134,7 +134,9 @@ class ManageBufferPM5{
 	}
 	write2Bytes(val){
 		val = Math.round(val);
-		// console.log('write2Bytes',val);
+		if(val>=2^16)
+			val =0;
+		console.log('write2Bytes',val);
 		this.buffer.writeUInt16LE(val, this.i);
 		this.i += 2;
 	}
@@ -245,7 +247,7 @@ for (let i = 0; i < 4; ++i) {
 				// 	new characteristicsPM5.characteristicPM535(),
 				// 	new characteristicsPM5.characteristicPM536(),
 				// ]
-function characteristicPM5ErgCallback(offset,data){
+function characteristicPM5ErgCallback(i,data){
 	// console.log("HelloErg ",data);
 	time	= Number(data.time);
 	// 31
@@ -273,8 +275,13 @@ function characteristicPM5ErgCallback(offset,data){
 	splitAvgCalories	= Number(data.splitAvgCalories);    // Split Average Calories ToDo in emulator and BLE
 	splitTime	= Number(data.splitTime);           // Split Time ToDo in emulator and BLE
 	splitDistance	= Number(data.splitDistance);       // Split Distance ToDo in emulator and BLE
-	i = Number(data.i)
+	/*i = Number(data.i)
+
+	if (i == NaN){
+		i=0;
+	}*/
 	// 
+	console.log("i : "+i);
 	characteristicPM5_31[i].update(); 
 	characteristicPM5_32[i].update();
 	characteristicPM5_33[i].update();
@@ -299,7 +306,7 @@ function characteristicPM5ErgCallback(offset,data){
 // 	// characteristicPM536.update();
 // }
 
-function characteristicPM5StrokeCallback(data){
+function characteristicPM5StrokeCallback(i,data){
 	//console.log("HelloStroke ",data);
 	time 		=	 Number(data.time);
 	distance 	=	 Number(data.distance);
@@ -318,7 +325,7 @@ function characteristicPM5StrokeCallback(data){
 	strokeCalories 		=	 Number(data.strokeCalories);
     projectedWorkTime 	=	 Number(data.projectedWorkTime);           // Projected Work Time ToDo in emulator and BLE
     projectedWorkDistance = Number(data.projectedWorkDistance);       // Projected Work Distance ToDo in emulator and BLE
-	i 					=	 Number(data.i);
+	// let i 					=	 Number(data.i);
 
 	// strokeRecoveryTim e = Number(data.strokeRecoveryTime);
 	// driveTime = Number(data.driveTime);
@@ -328,11 +335,12 @@ function characteristicPM5StrokeCallback(data){
 	//console.log("HelloStroke ",strokeRecoveryTime, driveTime);
 	// characteristicPM531.update();
 	// characteristicPM532.update();
-	// console.log("i : ",i);
+	console.log("strokeCall-> i : ",i);
 	characteristicPM5_35[i].update(); 
 	characteristicPM5_36[i].update();
 }
 function update31(bufferData){
+	console.log("31\t",bufferData);
 	const mBuffer = new ManageBufferPM5(bufferData);
 	mBuffer.writeTime(time);  // 
 	mBuffer.writeDistance(distance);
@@ -425,7 +433,7 @@ function update36(data){
 		strokeCount:70};
 */	
 	bufferErg.writeTime(time);
-	bufferErg.write2Bytes(strokePower);
+	bufferErg.write2Bytes(180);
 	bufferErg.write2Bytes(strokeCalories);
 	bufferErg.write2Bytes(strokeCount);
 	

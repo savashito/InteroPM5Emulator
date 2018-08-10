@@ -1,11 +1,12 @@
 let bleno = require('bleno');
-let characteristicsPM5 = require('./characteristicPM531');
-var socket = require('./socketController')(characteristicsPM5);
-let PM5Util = require('./PM5Util');
+// let characteristicsPM5 = require('./characteristicPM531');
+var socket = require('./socketController')(null);
+// var socket = require('./socketController')(characteristicsPM5);
+// let PM5Util = require('./PM5Util');
 
 
 // return;
-PM5Util.setSocketController(socket);
+// PM5Util.setSocketController(socket);
 
 var BlenoPrimaryService = bleno.PrimaryService;
 
